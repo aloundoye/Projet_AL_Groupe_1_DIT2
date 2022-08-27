@@ -1,0 +1,24 @@
+{
+  "name": "team-x-server",
+  "version": "1.0.0",
+  "description": "mini-projet team-x",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": "https://github.com/aloundoye/team-x-server.git",
+  "author": "Alassane Ndoye <aloutndoye.an@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-validator": "^6.14.2",
+    "mongoose": "^6.5.2",
+    "mongoose-unique-validator": "^3.1.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
