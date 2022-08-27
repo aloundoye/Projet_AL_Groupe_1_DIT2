@@ -3,8 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-const productsRoutes = require('./routes/products-routes');
-const usersRoutes = require('./routes/users-routes');
+const articlesRoutes = require('./routes/articles-routes');
 const HttpError = require('./models/http-error');
 
 const app = express();
@@ -21,8 +20,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/products', productsRoutes);
-app.use('/api/users', usersRoutes);
+app.use('/api/products', articlesRoutes);
 
 app.use((req, res, next) => {
   throw new HttpError('Could not find this route', 404);
@@ -39,7 +37,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.yluko.mongodb.net/products?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.yluko.mongodb.net/articles?retryWrites=true&w=majority`
   )
   .then(() => {
     app.listen(5000);
