@@ -12,6 +12,13 @@ use PDO;
 class Post extends \Core\Model
 {
 
+    public function __construct($data)
+    {
+        foreach ($data as $key => $value) {
+            $this->$key = $value;
+        };
+    }
+
     /**
      * Get all the posts as an associative array
      *
@@ -25,7 +32,7 @@ class Post extends \Core\Model
             $db = static::getDB();
 
             $stmt = $db->query('SELECT * FROM posts
-                                ORDER BY created_at');
+                                ORDER BY created_at DESC');
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -49,5 +56,21 @@ class Post extends \Core\Model
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public function save()
+    {
+
+        $sql = 'INSERT INTO posts (title, content)
+            VALUES (:title, :content)';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':title', $this->title, PDO::PARAM_STR);
+        $stmt->bindValue(':content', $this->content, PDO::PARAM_STR);
+
+
+        $stmt->execute();
     }
 }

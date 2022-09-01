@@ -40,7 +40,7 @@ class Users extends \Core\Controller
     }
 
     /**
-     *add new page
+     *add new user
      *
      * @return void
      */

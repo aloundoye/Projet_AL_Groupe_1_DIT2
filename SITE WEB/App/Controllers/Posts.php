@@ -20,7 +20,7 @@ class Posts extends \Core\Controller
     {
         $posts = Post::getAll();
 
-        View::renderTemplate('Home/index.html', [
+        View::renderTemplate('Posts/index.html', [
             'posts' => $posts
         ]);
     } /**
@@ -45,9 +45,22 @@ class Posts extends \Core\Controller
      *
      * @return void
      */
-    public function addNewAction()
+    public function newAction()
     {
-        echo 'Hello from the addNew action in the Posts controller!';
+        View::renderTemplate('Posts/new.html');
+    }
+
+    /**
+     *add new user
+     *
+     * @return void
+     */
+    public function createAction()
+    {
+        $post = new Post($_POST);
+
+        $post->save();
+        $this->indexAction();
     }
 
     /**
