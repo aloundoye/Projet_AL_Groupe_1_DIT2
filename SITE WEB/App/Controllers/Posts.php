@@ -20,7 +20,7 @@ class Posts extends \Core\Controller
     {
         $posts = Post::getAll();
 
-        View::renderTemplate('Posts/index.html', [
+        View::renderTemplate('Home/index.html', [
             'posts' => $posts
         ]);
     } /**
@@ -60,5 +60,11 @@ class Posts extends \Core\Controller
         echo 'Hello from the edit action in the Posts controller!';
         echo '<p>Route parameters: <pre>' .
             htmlspecialchars(print_r($this->route_params['id'], true)) . '</pre></p>';
+    }
+
+    public function deleteAction()
+    {
+
+        $this->indexAction();
     }
 }
