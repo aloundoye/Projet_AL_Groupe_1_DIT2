@@ -14,10 +14,11 @@ class View
      * Render a view file
      *
      * @param string $view  The view file
+     * @param array $args  Associative array of data to display in the view (optional)
      *
      * @return void
      */
-    public static function render($view, $args=[])
+    public static function render($view, $args = [])
     {
         extract($args, EXTR_SKIP);
 
@@ -26,14 +27,25 @@ class View
         if (is_readable($file)) {
             require $file;
         } else {
-            echo "$file not found";
+            //echo "$file not found";
+            throw new \Exception("$file not found");
         }
     }
 
-    public static function renderTemplate($template, $args =[]){
+    /**
+     * Render a view template using Twig
+     *
+     * @param string $template  The template file
+     * @param array $args  Associative array of data to display in the view (optional)
+     *
+     * @return void
+     */
+    public static function renderTemplate($template, $args = [])
+    {
         static $twig = null;
 
-        if ($twig === null){
+        if ($twig === null) {
+
             $loader = new \Twig\Loader\FilesystemLoader('../App/Views');
             $twig = new \Twig\Environment($loader);
         }
@@ -41,5 +53,3 @@ class View
         echo $twig->render($template, $args);
     }
 }
-
-

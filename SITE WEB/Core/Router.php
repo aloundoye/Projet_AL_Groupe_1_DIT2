@@ -5,6 +5,7 @@ namespace Core;
 /**
  * Router
  *
+ * PHP version 5.4
  */
 class Router
 {
@@ -108,7 +109,7 @@ class Router
         if ($this->match($url)) {
             $controller = $this->params['controller'];
             $controller = $this->convertToStudlyCaps($controller);
-            $controller = "App\Controllers\\$controller";
+            $controller = $this->getNamespace() . $controller;
 
             if (class_exists($controller)) {
                 $controller_object = new $controller($this->params);
@@ -116,17 +117,17 @@ class Router
                 $action = $this->params['action'];
                 $action = $this->convertToCamelCase($action);
 
-                if (preg_match('/action$/i', $action) == 0) {
+                if (is_callable([$controller_object, $action])) {
                     $controller_object->$action();
 
                 } else {
-                    throw new \Exception("Method $action in controller $controller cannot be called directly - remove the Action suffix to call this method");
+                    throw new \Exception("Method $action (in controller $controller) not found");
                 }
             } else {
-                echo "Controller class $controller not found";
+                throw new \Exception("Controller class $controller not found");
             }
         } else {
-            echo 'No route matched.';
+            throw new \Exception('No route matched.', 404);
         }
     }
 
@@ -192,5 +193,22 @@ class Router
         }
 
         return $url;
+    }
+
+    /**
+     * Get the namespace for the controller class. The namespace defined in the
+     * route parameters is added if present.
+     *
+     * @return string The request URL
+     */
+    protected function getNamespace()
+    {
+        $namespace = 'App\Controllers\\';
+
+        if (array_key_exists('namespace', $this->params)) {
+            $namespace .= $this->params['namespace'] . '\\';
+        }
+
+        return $namespace;
     }
 }

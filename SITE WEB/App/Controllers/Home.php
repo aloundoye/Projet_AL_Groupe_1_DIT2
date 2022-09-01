@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use \Core\View;
+use App\Models\Post;
+
 
 /**
  * Home controller
@@ -38,11 +40,10 @@ class Home extends \Core\Controller
      */
     public function indexAction()
     {
-//        echo 'Hello from the index action in the Home controller!';
+        $posts = Post::getAll();
 
         View::renderTemplate('Home/index.html ', [
-            'name' => 'Dave',
-            'colours' => ['red', 'green']
+            'posts' => $posts
         ]);
     }
 }

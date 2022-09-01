@@ -3,11 +3,10 @@
 namespace App\Controllers;
 
 use \Core\View;
+use App\Models\Post;
 
 /**
  * Posts controller
- *
- * PHP version 5.4
  */
 class Posts extends \Core\Controller
 {
@@ -19,7 +18,26 @@ class Posts extends \Core\Controller
      */
     public function indexAction()
     {
-        View::renderTemplate('Posts/index.html');
+        $posts = Post::getAll();
+
+        View::renderTemplate('Posts/index.html', [
+            'posts' => $posts
+        ]);
+    } /**
+     * Show a post page
+     *
+     * @return void
+     */
+    public function showAction()
+    {
+        $id = $this->route_params['id'];
+        $post = Post::getById($id);
+
+
+
+        View::renderTemplate('Posts/show.html', [
+            'post' => $post
+        ]);
     }
 
     /**
@@ -41,6 +59,6 @@ class Posts extends \Core\Controller
     {
         echo 'Hello from the edit action in the Posts controller!';
         echo '<p>Route parameters: <pre>' .
-            htmlspecialchars(print_r($this->route_params, true)) . '</pre></p>';
+            htmlspecialchars(print_r($this->route_params['id'], true)) . '</pre></p>';
     }
 }
